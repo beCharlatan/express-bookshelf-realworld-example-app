@@ -42,7 +42,7 @@ deploy:
     - chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
     - rsync -a --progress --human-readable --delete
-      --exclude_from '.gitignore'
+      --exclude-from '.gitignore'
       --exclude .gitignore
       --exclude .git
       . deploy@192.168.88.108:~/realworld/

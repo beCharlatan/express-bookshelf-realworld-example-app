@@ -27,13 +27,13 @@ jobs:
           --exclude .gitignore \
           --exclude .git \
           --exclude public \
-          . $SSH_USER@$SSH_HOST:~/app/realworld
+          . $SSH_USER@$SSH_HOST:~/app/${{ github.head_ref }}
         env:
           SSH_USER: ${{secrets.SSH_USER}}
           SSH_HOST: ${{secrets.SSH_HOST}}
       - name: Restart app
         run: |
-          ssh $SSH_USER@$SSH_HOST "cd ~/app/realworld && npm install && cd ~/app && pm2 restart ecosystem.config.js"
+          ssh $SSH_USER@$SSH_HOST "pushd ~/app/${{ github.head_ref }} && npm install && popd && pm2 restart ${{ github.head_ref }}"
         env:
           SSH_USER: ${{secrets.SSH_USER}}
           SSH_HOST: ${{secrets.SSH_HOST}}

@@ -23,7 +23,7 @@ jobs:
           --exclude-from '.gitignore' \
           --include-from .deploylist \
           --exclude public \
-          . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/realworld/${{ github.head_ref }}/
+          . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/realworld/$GITHUB_REF/
       - name: Restart the application
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pushd ~/realworld/${{ github.head_ref }} && npm install && popd && pm2 restart ${{ github.head_ref }}"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pushd ~/realworld/$GITHUB_REF && npm install && popd && pm2 restart $GITHUB_REF"

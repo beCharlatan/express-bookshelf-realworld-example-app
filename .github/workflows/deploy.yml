@@ -27,7 +27,7 @@ jobs:
           --exclude .gitignore \
           --exclude .git \
           --exclude public \
-          . $SSH_USER@$SSH_HOST:~/app/${{ github.head_ref }}
+          . $SSH_USER@$SSH_HOST:~/app/${{ github.head_ref }}/
         env:
           SSH_USER: ${{secrets.SSH_USER}}
           SSH_HOST: ${{secrets.SSH_HOST}}

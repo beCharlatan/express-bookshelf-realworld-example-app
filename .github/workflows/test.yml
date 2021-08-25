@@ -1,15 +1,19 @@
 name: test
 
-on: [push]
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
 
 jobs:
   eslint:
     name: ESLint
     runs-on: ubuntu-latest
-    container:
-      image: node:14.17.0-alpine
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
@@ -24,10 +28,11 @@ jobs:
   prettier:
     name: Prettier
     runs-on: ubuntu-latest
-    container:
-      image: node:14.17.0-alpine
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
       - name: Cache dependencies
         uses: actions/cache@v2
         with:

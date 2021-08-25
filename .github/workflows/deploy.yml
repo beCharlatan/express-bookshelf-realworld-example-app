@@ -17,13 +17,15 @@ jobs:
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
       - name: Adding known hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Set env.BRANCH
+        run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
       - name: Copy files to the server
         run: |
           rsync -a --progress --human-readable --delete \
           --exclude-from '.gitignore' \
           --include-from .deploylist \
           --exclude public \
-          . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/realworld/$GITHUB_REF/
+          . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/realworld/${{env.BRANCH}}/
       - name: Restart the application
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pushd ~/realworld/$GITHUB_REF && npm install && popd && pm2 restart $GITHUB_REF"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pushd ~/realworld/${{env.BRANCH}} && npm install && popd && pm2 restart ${{env.BRANCH}}"

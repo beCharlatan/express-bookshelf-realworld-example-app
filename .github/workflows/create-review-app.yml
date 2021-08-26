@@ -28,7 +28,7 @@ jobs:
             . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/realworld/${{github.head_ref}}/
       - name: Restarting the app
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cp ~/realworld/ecosystem.config.js ~/realworld/${{github.head_ref}}/ && pushd ~/realworld/${{github.head_ref}} && sed -i 's/'DB_NAME': 'realworld'/'DB_NAME': '${{github.head_ref}}'/' ecosystem.config.js && sudo ./bin/create-db-copy ${{secrets.DB_PASSWORD}} ${{github.head_ref}} && npm install && pm2 restart ecosystem.config.js --name ${{github.head_ref}} --env production --update-env && popd"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cp ~/realworld/ecosystem.config.js ~/realworld/${{github.head_ref}}/ && pushd ~/realworld/${{github.head_ref}} && sed -i 's/'DB_NAME': 'realworld'/'DB_NAME': '${{github.head_ref}}'/' ecosystem.config.js && sudo -S 123 ./bin/create-db-copy ${{secrets.DB_PASSWORD}} ${{github.head_ref}} && npm install && pm2 restart ecosystem.config.js --name ${{github.head_ref}} --env production --update-env && popd"
       - name: Post review app URL
         if: success()
         uses: mshick/add-pr-comment@v1

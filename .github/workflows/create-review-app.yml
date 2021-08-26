@@ -20,7 +20,7 @@ jobs:
         run: ssh-keyscan -H ${{secrets.SSH_HOST}} >> ~/.ssh/known_hosts
       - name: Copy files to server
         run: |
-            rsync -a --progress --human-readable --delete \
+            rsync -aqp --progress --human-readable --delete \
             --exclude-from '.gitignore' \
             --include-from .deploylist \
             --exclude public \

@@ -28,4 +28,4 @@ jobs:
           . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/realworld/${{env.BRANCH}}/
       - name: Restart the application
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "pushd ~/realworld/${{env.BRANCH}} && npm install && popd && pm2 restart ${{env.BRANCH}}"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/realworld/${{env.BRANCH}} && npm install && cd ~/realworld && pm2 restart ecosystem.config.js"

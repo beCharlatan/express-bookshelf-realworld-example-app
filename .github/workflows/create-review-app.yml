@@ -66,15 +66,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         - if: steps.check-branch.output.status != 200
-        name: Trigger frontend review app
-        uses: octokit/request-action@v2.x
-        with:
-          route: POST /repos/{owner}/{repo}/actions/workflows/publish-review-app.yml/dispatches
-          owner: beCharlatan
-          repo: react-redux-realworld-example-app
-          ref: master
-          inputs: |
-            refName: "master"
-            dst: ${{github.head_ref}}
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          name: Trigger frontend review app
+          uses: octokit/request-action@v2.x
+          with:
+            route: POST /repos/{owner}/{repo}/actions/workflows/publish-review-app.yml/dispatches
+            owner: beCharlatan
+            repo: react-redux-realworld-example-app
+            ref: master
+            inputs: |
+              refName: "master"
+              dst: ${{github.head_ref}}
+          env:
+            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

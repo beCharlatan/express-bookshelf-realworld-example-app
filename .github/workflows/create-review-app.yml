@@ -39,6 +39,7 @@ jobs:
           REVIEW_APP_URL: http://${{ github.head_ref }}.${{ secrets.APP_HOST }}/
 
   review:
+    if: "!contains(github.event.pull_request.title, 'SKIP REVIEW')"
     needs: deploy
     runs-on: ubuntu-latest
     steps:
@@ -50,7 +51,7 @@ jobs:
           repo: react-redux-realworld-example-app
           ref: ${{github.head_ref}}
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.PAT_TOKEN}}
         continue-on-error: true
       - if: steps.check-branch.output.status == 200
         name: Trigger frontend review app
@@ -64,7 +65,7 @@ jobs:
             refName: ${{github.head_ref}}
             dst: ${{github.head_ref}}
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.PAT_TOKEN}}
       - if: steps.check-branch.output.status != 200
         name: Trigger frontend review app
         uses: octokit/request-action@v2.x
@@ -77,4 +78,4 @@ jobs:
             refName: "master"
             dst: ${{github.head_ref}}
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.PAT_TOKEN}}
